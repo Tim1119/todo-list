@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}">
+    <link rel="stylesheet" href="{% static 'css/style.css'%}">
+    <title>Todo List</title>
+</head>
+<body>
+    <section class="todo-list-block">
+        <h3>Todo List</h3>
+        <section class="todo-list-form">
+            <form method="POST" >
+                {% csrf_token %}
+                {{form.item}}
+                {{form.completed}}
+                <button type="submit" class="btn">Save</button>
+            </form>
+        </section>
+        <section class="all-item-list">
+           {% for item in all_items%}
+           {% if item.completed %}
+           <div class="todo-item"> 
+            <p class="item">
+              <button class="delete-btn"><a href="{% url 'delete' item.pk %}">Delete</button>
+              <button class="edit-btn"><a href="{% url 'edit' item.pk %}">Edit</a></button>
+                  </p>
+                  <p class="item-item"><strike>{{item.item}}</strike></p>
+          </div>
+            {% else %}
+           <div class="todo-item"> 
+              <p class="item">
+                <button class="delete-btn"><a href="{% url 'delete' item.pk %}">Delete</button>
+                <button class="edit-btn"><a href="{% url 'edit' item.pk %}">Edit</a></button>
+                    </p>
+                    <p class="item-item"> {{item.item}}</p>
+            </div>
+            {% endif %}
+                {% endfor %}
+        </section>
+    </section>
+</body>
+</html>
